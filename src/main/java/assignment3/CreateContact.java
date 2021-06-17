@@ -88,10 +88,10 @@ public class CreateContact {
 			driver = new FirefoxDriver();
 
 		} else if (browser.equalsIgnoreCase("edge")) {
-			
+
 			System.setProperty("webdriver.edge.driver", "./driver/msedgedriver.exe");
 			driver = new EdgeDriver();
-			
+
 		}
 
 		driver.get("https://www.techfios.com/billing/?ng=admin");
@@ -122,7 +122,7 @@ public class CreateContact {
 		randomEmail();
 
 		WebElement ACCOUNT_NAME_ELEMENT = driver.findElement(By.xpath("//input[@id='account']"));
-		
+
 		waitForElement(driver, ACCOUNT_NAME_ELEMENT, 20);
 
 		ACCOUNT_NAME_ELEMENT.sendKeys(contactName);
@@ -137,32 +137,31 @@ public class CreateContact {
 		driver.findElement(By.xpath("//input[@id='state']")).sendKeys(contactState);
 		driver.findElement(By.xpath("//input[@id='zip']")).sendKeys(contactZip);
 
-		By COUNTRY_DROPDOWN_ELEMENT = By.xpath("//select[@name='country']");
+		By COUNTRY_DROPDOWN_ELEMENT = By.xpath("//select[@id='country']");
 		selectDropdown(driver.findElement(COUNTRY_DROPDOWN_ELEMENT), "Turkey");
 
 		driver.findElement(By.xpath("//button[@id='submit']")).click();
 
-		// CHECKING IF THE CUSTOMER IS ADDED TO THE LIST 
-		
+		// CHECKING IF THE CUSTOMER IS ADDED TO THE LIST
+
 		WebElement SUMMARY_ELEMENT = driver.findElement(By.xpath("//img[@class='img-thumbnail img-responsive']"));
 		waitForElement(driver, SUMMARY_ELEMENT, 20);
 
 		By LIST_CONTACTS_ELEMENT = By.xpath("//a[@href='https://techfios.com/billing/?ng=contacts/list/']");
-		
+
 		driver.findElement(LIST_CONTACTS_ELEMENT).click();
-		
+
 		// Codes below are executed in the List Customers page
-		
+
 		waitForElement(driver, driver.findElement(By.xpath("//i[@class='fa fa-download']")), 20);
-		
-		String nameXpath = ("//table/tbody/tr/td[3]/a[contains(text(), " + "'" + contactName + "')]");
+
+		String nameXpath = ("//table/tbody/tr/td[3]/a[contains(text(), '" + contactName + "')]");
 		
 		System.out.println(nameXpath);
-		
+
 		WebElement NAME_LIST_ELEMENT = driver.findElement(By.xpath(nameXpath));
 
 		Assert.assertEquals(NAME_LIST_ELEMENT.getText(), contactName, "Account is not on the list");
-
 	}
 
 }
